@@ -1,5 +1,7 @@
 # MediLink Appointment Platform: Team 28
 
+[![Tests](https://github.com/karmidd/medilink-team28/actions/workflows/test.yml/badge.svg)](https://github.com/karmidd/medilink-team28/actions/workflows/test.yml)
+
 COMP 354 (Fall 2026), Assignment on Software Engineering Management.
 
 MediLink is a (fictional) Canadian platform where patients of small medical and dental clinics
@@ -216,3 +218,10 @@ npm test
 | `src/reminders.js` | Queue reminders and send the ones that are due |
 | `src/format.js` | Format appointment times for emails and reminders |
 | `tests/` | One test file per source file (`node --test`) |
+
+### Test results
+
+GitHub Actions runs `npm test` on every pull request to `main` and every push to `main`
+(`.github/workflows/test.yml`). The result shows as the **Tests** check at the bottom of each PR, and
+the full log is in the [Actions tab](https://github.com/karmidd/medilink-team28/actions). A PR cannot be
+merged until the check passes and a teammate has approved it.
