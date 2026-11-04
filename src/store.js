@@ -8,9 +8,9 @@ export function createStore() {
       { id: 'c2', name: 'Halifax Family Dental', timeZone: 'America/Halifax' },
     ],
     patients: [
-      { id: 'p1', name: 'Amira Haddad', email: 'amira@example.com' },
-      { id: 'p2', name: 'Lucas Gagnon', email: 'lucas@example.com' },
-      { id: 'p3', name: 'Priya Nair', email: 'priya@example.com' },
+      { id: 'p1', name: 'Amira Haddad', email: 'amira@example.com', reminderChannel: 'email' },
+      { id: 'p2', name: 'Lucas Gagnon', email: 'lucas@example.com', reminderChannel: 'email' },
+      { id: 'p3', name: 'Priya Nair', email: 'priya@example.com', reminderChannel: 'email' },
     ],
     // Times are stored in UTC.
     slots: [
