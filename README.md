@@ -5,8 +5,8 @@
 COMP 354 (Fall 2026), Assignment on Software Engineering Management.
 
 MediLink is a (fictional) Canadian platform where patients of small medical and dental clinics
-book and cancel appointments and get reminders, and clinic staff manage schedules. It is already
-in production. Our team owns the next release.
+book, cancel and reschedule appointments and get reminders, and clinic staff manage schedules. It
+is already in production. Our team owns the next release.
 
 This repo holds a small prototype of the appointment and reminder code, plus everything we use to
 run one short development cycle: the board, the work items, our rules and our daily updates.
@@ -214,7 +214,7 @@ npm test
 | File | What it does |
 |---|---|
 | `src/store.js` | In-memory sample data: clinics, patients, time slots, appointments, reminder queue |
-| `src/appointments.js` | Book and cancel appointments, list free slots |
+| `src/appointments.js` | Book, cancel and reschedule appointments; list free slots |
 | `src/reminders.js` | Queue reminders and send the ones that are due |
 | `src/format.js` | Format appointment times for emails and reminders |
 | `tests/` | One test file per source file (`node --test`) |
