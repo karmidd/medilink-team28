@@ -13,24 +13,41 @@ function channelOf(store, patientId) {
   return patient?.reminderChannel ?? 'email';
 }
 
+function queueReminder(store, appointment, now) {
+  const startsIn = new Date(appointment.start) - now;
+  const alreadyQueued = store.reminderQueue.some((r) => r.appointmentId === appointment.id);
+  const channel = channelOf(store, appointment.patientId);
+
+  if (
+    appointment.status === 'booked' &&
+    startsIn > 0 &&
+    startsIn <= QUEUE_WINDOW_MS &&
+    !alreadyQueued &&
+    channel !== 'none'
+  ) {
+    store.reminderQueue.push({
+      appointmentId: appointment.id,
+      patientId: appointment.patientId,
+      channel,
+      sendAt: new Date(new Date(appointment.start) - SEND_BEFORE_MS).toISOString(),
+      sent: false,
+    });
+  }
+}
+
 // Queue one reminder for each booked appointment that starts in the next 24 hours,
 // unless the patient chose no reminders.
 export function queueReminders(store, now = new Date()) {
   for (const appointment of store.appointments) {
-    const startsIn = new Date(appointment.start) - now;
-    const alreadyQueued = store.reminderQueue.some((r) => r.appointmentId === appointment.id);
-    const channel = channelOf(store, appointment.patientId);
-
-    if (appointment.status === 'booked' && startsIn > 0 && startsIn <= QUEUE_WINDOW_MS && !alreadyQueued && channel !== 'none') {
-      store.reminderQueue.push({
-        appointmentId: appointment.id,
-        patientId: appointment.patientId,
-        channel,
-        sendAt: new Date(new Date(appointment.start) - SEND_BEFORE_MS).toISOString(),
-        sent: false,
-      });
-    }
+    queueReminder(store, appointment, now);
   }
+}
+
+export function refreshAppointmentReminder(store, appointment, now = new Date()) {
+  store.reminderQueue = store.reminderQueue.filter(
+    (reminder) => reminder.appointmentId !== appointment.id,
+  );
+  queueReminder(store, appointment, now);
 }
 
 // Send every queued reminder whose time has come. `send` delivers the message on reminder.channel.
