@@ -16,12 +16,24 @@ test('cancelling an appointment frees its slot', () => {
   const store = createStore();
   const appointment = bookAppointment(store, { patientId: 'p1', slotId: 's1' });
   cancelAppointment(store, appointment.id);
+  const replacement = bookAppointment(store, { patientId: 'p2', slotId: 's1' });
 
   assert.equal(appointment.status, 'cancelled');
-  assert.ok(findAvailableSlots(store, 'c1').some((s) => s.id === 's1'));
+  assert.equal(replacement.status, 'booked');
+  assert.equal(replacement.slotId, 's1');
 });
 
 test('booking an unknown slot is refused', () => {
   const store = createStore();
   assert.throws(() => bookAppointment(store, { patientId: 'p1', slotId: 'nope' }), /Unknown slot/);
+});
+
+test('booking an already booked slot is refused', () => {
+  const store = createStore();
+  bookAppointment(store, { patientId: 'p1', slotId: 's1' });
+
+  assert.throws(
+    () => bookAppointment(store, { patientId: 'p2', slotId: 's1' }),
+    { message: 'Slot no longer available' },
+  );
 });

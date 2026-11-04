@@ -3,6 +3,9 @@
 export function bookAppointment(store, { patientId, slotId }) {
   const slot = store.slots.find((s) => s.id === slotId);
   if (!slot) throw new Error(`Unknown slot ${slotId}`);
+  if (store.appointments.some((a) => a.slotId === slotId && a.status === 'booked')) {
+    throw new Error('Slot no longer available');
+  }
 
   const appointment = {
     id: `a${store.nextId++}`,
