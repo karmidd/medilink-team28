@@ -215,7 +215,7 @@ npm test
 |---|---|
 | `src/store.js` | In-memory sample data: clinics, patients, time slots, appointments, reminder queue |
 | `src/appointments.js` | Book, cancel and reschedule appointments; list free slots |
-| `src/reminders.js` | Queue reminders and send the ones that are due |
+| `src/reminders.js` | Queue reminders and send the ones that are due; each patient chooses email, SMS or no reminders (`setReminderChannel`) |
 | `src/format.js` | Format appointment times for emails and reminders |
 | `tests/` | One test file per source file (`node --test`) |
 
